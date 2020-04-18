@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JSP 게시판 웹 사이트</title>
+<meta name="viewprot" content="width=device-width", initial-scale="1">
+<!-- 부트스트랩은 pc,모바일 무엇으로 접속하든 디자인이 알아서 변경되는 템플릿이다. 따라서 간단하게 반응형 웹에 사용되는 메타 태그를 넣어준다-->
+<link = rel="stylesheet" href="css/bootstrap.css">
+<!-- css폴더 안에있는 bootstrap.css를 참조해서 이 홈페이지의 기본적인 디자인으로 사용한다. -->
+</head>
+<body>
+	<!-- navigation은 하나의 웹사이트의 전반적인 구성을 보여준다. -->
+	<nav class ="navbar navbar-default">
+		<div class ="navbar-header">
+			<button type ="button" class ="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-exmaple-navbar-collapse-1"
+				aria-expanded="false">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="main.jsp">JSP 게시판 웹사이트</a>
+		</div>
+		<div class ="collapse navbar-collapse" id ="#bs-example-navbar-collapse-1">
+			<ul class="navbar-nav">
+				<li><a href="main.jsp">메인</a></li>
+				<li><a href="bbs.jsp">게시판</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class ="dropdown">
+					<a href="#" class ="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-hspopup="true"
+						aria-expanded="false">접속하기<span class ="caret"></span></a>
+					<ul class ="dropdown-menu">
+					<!-- active는 현재 선택이 되었다는 뜻이다. -->
+						<li class="active"><a href="login.jsp">로그인</a></li>
+						<li><a href="join.jsp">로그인</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<!-- 애니메이션을 담당할 자바스크립트를 참조한다. -->
+	<!-- jquery를 특정한 홈페이지에서 가져올 수 있도록 한다. -->
+	<script src="https://code.jquery.com/jquery-3.1.1min.js"></script>
+	<script src="js/bootstrap.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+package user;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class UserDAO {
+	
+	private Connection conn;	// db에 접근하게 해주는 하나의 객체
+	private PreparedStatement pstmt;
+	private ResultSet rs;	// 정보를 담을 수 있는 하나의 객체
+	
+	// UserDAO()를 하나의 객체로 만들었을 떄 자동으로 database커넥션이 이루어 질 수 있도록 해준다.
+	public UserDAO() {
+		try {
+			String dbURL ="jdbc:mysql://localhost:3333/BBS";
+			String dbID ="root";
+			String dbPassword = "013174zz";
+			Class.forName("com.mysql.jdbc.Driver"); // Driver는 mysql에 접속할 수 있도록 매개체 역할을 해주는 하나의 라이브러리이다.
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e){
+			e.printStackTrace();	// 해당 예외를 출력한다.
+		}
+	}
+	
+	// 실제로 로그인을 시도하는 하나의 함수
+	public int login(String userID, String userPassword) {
+		String SQL = "SELECT userPassword FROM USER WHERE userID =?";	// ? 는 뭐지?
+		
+		try(){
+			pstmt = conn.prepareStatement(SQL); // pstmt에 어떤 정해진 SQL문장을 DB에 삽입하는 형식으로 인스턴스를 가져온다.
+			pstmt.setString(1, userID);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -2;	// 데이터베이스 오류 
+	}
+	
+}
