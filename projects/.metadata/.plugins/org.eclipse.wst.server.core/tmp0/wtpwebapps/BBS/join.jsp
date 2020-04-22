@@ -32,7 +32,7 @@
 						aria-expanded="false">접속하기<span class ="caret"></span></a>
 					<ul class ="dropdown-menu">
 						<li><a href="login.jsp">로그인</a></li>
-						<li class="active"><a href="join.jsp">회원가입</a></li>	<%-- active는 그냥 불빛이 들어오게 화성화 하는 기능인것 같다. --%>
+						<li class="active"><a href="join.jsp">회원가입</a></li>	<%-- active(action하고 다르다)는 그냥 불빛이 들어오게 화성화 하는 기능인것 같다. --%>
 					</ul>
 				</li>
 			</ul>
@@ -43,7 +43,7 @@
 		<div class="col-lg-4"></div>
 		<div class="col-lg-4">
 			<div class="jumbotron" style="padding-top: 20px;">
-				<form method="post" action="joinAction.jsp">	<%--joinAction.jsp 페이지로 데이터를 보낸다 --%>
+				<form method="post" action="joinAction.jsp">	<%-- joinAction.jsp 페이지로 데이터를 보낸다 --%>
 					<h3 style="text-align: center;">회원가입 화면</h3>
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">

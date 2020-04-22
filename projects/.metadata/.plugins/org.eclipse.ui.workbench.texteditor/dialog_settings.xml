@@ -9,6 +9,7 @@
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
 			<item value="active"/>
+			<item value="main"/>
 			<item value="acive"/>
 			<item value="게시판"/>
 			<item value="user"/>

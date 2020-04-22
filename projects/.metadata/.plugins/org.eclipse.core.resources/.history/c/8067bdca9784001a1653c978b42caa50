@@ -32,8 +32,10 @@
 			script.println("</script>");
 		}
 	
-		// 참고로 user는 UserDAO클래스의 join(User user) 메서드에서 에 있는 매개변수와
-		// 위에서 user.UserDAO를 import 했는데  이렇게 이름이 같아야한다.
+		// 참고로 user는 UserDAO클래스의 join(User user) 메서드에서 에 있는 매개변수와 이름이 같은데 여기서 가져온것인가 아니면
+		//(위에서 user.UserDAO를 import 했는데 여기서 가져온 user인가
+		// 아니면 둘의 이름이 같아야만 하는가?
+				if(user.)
 		if(user.getUserID() == null || user.getUserPassword() == null || user.getUserName() == null 
 		|| user.getUserGender() == null || user.getUserEmail() == null)	{
 			PrintWriter script = response.getWriter();	// 하나의 스크립트 문장을 넣어줄 수 있도록한다.
