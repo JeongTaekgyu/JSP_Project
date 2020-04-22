@@ -2,12 +2,17 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="active" key="selection"/>
+		<item value="존재" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="존재"/>
+			<item value="query"/>
+			<item value="bbsDAO"/>
+			<item value="bbs"/>
+			<item value="글쓰기"/>
 			<item value="active"/>
 			<item value="main"/>
 			<item value="acive"/>

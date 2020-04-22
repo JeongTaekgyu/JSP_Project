@@ -35,13 +35,13 @@ public class UserDAO {
 		
 		try {
 			pstmt = conn.prepareStatement(SQL); // pstmt에 어떤 정해진 SQL문장을 DB에 삽입하는 형식으로 인스턴스를 가져온다.
-			pstmt.setString(1, userID);
+			pstmt.setString(1, userID);	// setString으로 SQL타입을 처리해준다. int형이면 setInt()
 			rs = pstmt.executeQuery();	// 실행한 결과를 넣어준다
-			//System.out.println("rs : " + rs);
 			
 			if(rs.next()) // 결과가 존재한다면(id가 있음)
 			{
-				if(rs.getString(1).equals(userPassword)) // getString()함수는 해당 순서의 열에있는 데이터를 String형으로 받아온단 뜻이다.
+				//System.out.println("rs.getString(1) : " + rs.getString(1));
+				if(rs.getString(1).equals(userPassword)) // getString()함수는 해당 순서의 열에있는 데이터를 String형으로 받아온단 뜻이다. 여기서 1열에는 userPassword가 있다.
 				{
 					return 1; // 비밀번호 일치 -> 로그인 성공
 				}else {
