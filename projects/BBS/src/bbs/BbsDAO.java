@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class BbsDAO {
 	
@@ -68,7 +69,7 @@ public class BbsDAO {
 			pstmt.setString(3, userID);
 			pstmt.setString(4, getDate());
 			pstmt.setString(5, bbsContent);
-			pstmt.setInt(6, 1);
+			pstmt.setInt(6, 1);	// bbsAvailable을 1로 만듦
 			
 			return pstmt.executeUpdate(); // 성공적으로 게시글을 반환
 			// executeUpdate는  INSERT / DELETE / UPDATE 관련 구문에서는 반영된 레코드의 건수를 반환한다.
@@ -77,6 +78,57 @@ public class BbsDAO {
 			e.printStackTrace();
 		}
 		return -1; // 데이터베이스 오류
+	}
+	
+	public ArrayList<Bbs> getList(int pageNumber){
+		// bbsID가 특정값보다 작고, 삭제가 되지 않아서 bbsAvailable이 1 인 글들만 가져올 수 있도록 함 , bbsID로 내림차순 정렬하고, 위에서 10개 까지만 불러옴
+		String SQL ="SELECT *FROM BBS WHERE bbsID < ? And bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+		ArrayList<Bbs> list = new ArrayList<Bbs>();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			// getNext : 그 다음으로 작성될 글의 번호
+			// 현재 글이 5개이고 다음으로 작성될 글의 번호가 6일떄, 6 - (1-1)*10
+			// 즉 한 페이지에 최대 10개 까지만 보여주기로 했으므로 글이 5개 있을때는 pageNumber = 1 이다.
+			rs = pstmt.executeQuery();	// 실제로 실행했을 때 나오는 결과
+			 
+			while(rs.next()) {
+				Bbs bbs = new Bbs();
+				
+				bbs.setBbsID(rs.getInt(1));
+				bbs.setBbsTitle(rs.getString(2));
+				bbs.setUserID(rs.getString(3));
+				bbs.setBbsDate(rs.getString(4));
+				bbs.setBbsContent(rs.getString(5));
+				bbs.setBbsAvailable(rs.getInt(6));
+				
+				list.add(bbs);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list; // 게시글 리스트를 반환한다.
+	}
+	
+	// 페이지 처리를 위한 메서드 ( 게시글이 10개 단위니까 10개 이하이면 다음페이지가 없다. )
+	public boolean nextPage(int pageNumber) {
+		String SQL ="SELECT *FROM BBS WHERE bbsID < ? And bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			// getNext : 그 다음으로 작성될 글의 번호
+			// 현재 글이 5개이고 다음으로 작성될 글의 번호가 6일떄, 6 - (1-1)*10
+			// 즉 한 페이지에 최대 10개 까지만 보여주기로 했으므로 글이 5개 있을때는 pageNumber = 1 이다.
+			rs = pstmt.executeQuery();	// 실제로 실행했을 때 나오는 결과
+			 
+			if(rs.next()) {
+				return true; // 다음페이지로 넘어갈 수 있다.
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false; // 다음 페이지가 없다면
 	}
 	
 }
