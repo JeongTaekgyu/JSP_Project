@@ -131,4 +131,35 @@ public class BbsDAO {
 		return false; // 다음 페이지가 없다면
 	}
 	
+	// 하나의 글 내용을 불러오는 함수
+	public Bbs getBbs(int bbsID) {
+		// 특정한 아이디에 해당하는 게시글을 불러온다.
+		String SQL ="SELECT *FROM BBS WHERE bbsID = ?";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID);
+			// getNext : 그 다음으로 작성될 글의 번호
+			// 현재 글이 5개이고 다음으로 작성될 글의 번호가 6일떄, 6 - (1-1)*10
+			// 즉 한 페이지에 최대 10개 까지만 보여주기로 했으므로 글이 5개 있을때는 pageNumber = 1 이다.
+			rs = pstmt.executeQuery();	// 실제로 실행했을 때 나오는 결과
+			 
+			if(rs.next()) {
+				Bbs bbs = new Bbs();
+				
+				bbs.setBbsID(rs.getInt(1));
+				bbs.setBbsTitle(rs.getString(2));
+				bbs.setUserID(rs.getString(3));
+				bbs.setBbsDate(rs.getString(4));
+				bbs.setBbsContent(rs.getString(5));
+				bbs.setBbsAvailable(rs.getInt(6));
+				
+				return bbs;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null; // 해당 글이 존재하지 않으면
+	}
+	
 }
