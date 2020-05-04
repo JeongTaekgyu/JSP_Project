@@ -160,4 +160,40 @@ public class BbsDAO {
 		return null; // 해당 글이 존재하지 않으면
 	}
 	
+	// 글을 수정하는 함수
+	public int update(int bbsID, String bbsTitle, String bbsContent) {
+		// 특정 bbsID에 해당하는 제목과 내용을 바꿔주겠다.
+		String SQL = "UPDATE BBS SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, bbsContent);
+			pstmt.setInt(3, bbsID);
+			
+			return pstmt.executeUpdate(); // 성공적으로 게시글을 반환
+			// executeUpdate는  INSERT / DELETE / UPDATE 관련 구문에서는 반영된 레코드의 건수를 반환한다.
+			// CREATE / DROP 관련 구문에서는 -1 을 반환한다.
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1; // 데이터베이스 오류
+	}
+	
+	// 글을 삭제하는 함수
+	public int delete(int bbsID) {
+		// 글을 삭제하더라도 글에 대한 정보가 남아 있을 수 있도록 한다.
+		String SQL = "UPDATE BBS SET bbsAvailable = 0 WHERE bbsID = ?";
+				
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID);
+			return pstmt.executeUpdate(); // 성공적으로 게시글을 반환
+			// executeUpdate는  INSERT / DELETE / UPDATE 관련 구문에서는 반영된 레코드의 건수를 반환한다.
+			// CREATE / DROP 관련 구문에서는 -1 을 반환한다.
+		} catch(Exception e) {
+				e.printStackTrace();
+		}
+		return -1; // 데이터베이스 오류
+	}
 }

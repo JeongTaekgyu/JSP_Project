@@ -2,15 +2,18 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Title" key="selection"/>
+		<item value="삭제" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="title"/>
+			<item value="삭제"/>
 			<item value="글쓰기"/>
 			<item value="수정"/>
+			<item value="GETBBS"/>
+			<item value="getUserID"/>
+			<item value="title"/>
 			<item value="getlist"/>
 			<item value="setstring"/>
 			<item value="getstring"/>
@@ -20,9 +23,6 @@
 			<item value="bbsDAO"/>
 			<item value="bbs"/>
 			<item value="active"/>
-			<item value="main"/>
-			<item value="acive"/>
-			<item value="게시판"/>
 		</list>
 		<list key="replacehistory">
 		</list>

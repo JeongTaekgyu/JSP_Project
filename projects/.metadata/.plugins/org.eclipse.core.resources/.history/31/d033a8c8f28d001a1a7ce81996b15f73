@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>	<%--자바스크립트 문장을 작성하기 위해 라이브러리를 불러온다. --%>
 <%@ page import="bbs.Bbs" %>
-<%@ page import="bbs.BbsDAO" %>	<%-- 데이터베이스 접근 객체를 가져온다 --%>
+<%@ page import="bbs.BbsDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,12 +20,21 @@
 			userID = (String) session.getAttribute("userID");
 		}
 		
+		if(userID == null) // 로그인을 안했다면
+		{
+			PrintWriter script = response.getWriter();	// 하나의 스크립트 문장을 넣어줄 수 있도록한다.
+			script.println("<script>");
+			script.println("alert('로그인을 하세요.')");
+			script.println("location.href = 'login.jsp'");	// 이전의 페이지로 돌려보낸다.
+			script.println("</script>");
+		}
+		
 		int bbsID = 0;
 		// 매개변수로 넘어온 bbsID가 존재한다면
 		if(request.getParameter("bbsID") != null){
 			bbsID = Integer.parseInt(request.getParameter("bbsID"));
 		}
-		// 존재하지 않으면
+		// 현재 수정하고자 하는 글번호(bbsID)가 존재하지 않으면
 		if(bbsID == 0){
 			PrintWriter script = response.getWriter();	// 하나의 스크립트 문장을 넣어줄 수 있도록한다.
 			script.println("<script>");
@@ -34,8 +43,11 @@
 			script.println("</script>");
 		}
 		
-		// bbsID 0이 아니면 구체적인 정보를 bbs 인스턴스에 담는다.
 		Bbs bbs = new BbsDAO().getBbs(bbsID);
+		// 현재 넘어온 BBSid값을 가지고 
+		if(!userID.equals(bbs.getUserID())){
+			
+		}
 	%>
 	<nav class ="navbar navbar-default">
 		<div class ="navbar-header">
@@ -90,28 +102,24 @@
 	
 	<div class="container">
 		<div class="row">
-			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
-				<thead>	<%-- 테이블의 헤더 --%>
-					<tr>
-						<th colspan="3" style="background-color: #eeeeee; text-align: center;">게시판 글보기  양식</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="width: 20%;">글 제목</td>
-						<td collspan="2"><%= bbs.getBbsTitle() %></td>
-					</tr>
-					<tr>
-						<td>작성자</td>
-						<td collspan="2"><%= bbs.getUserID() %></td>
-					</tr>
-					<tr>
-						<td>작성일자</td>
-						<td collspan="2"><%= bbs.getUserID() %></td>
-					</tr>
-				</tbody>
-			</table>
-			<input type="submit" class="btn btn-primary pull-right" value ="글쓰기">
+			<form method ="post" action="writeAction.jsp">
+				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+					<thead>	<%-- 테이블의 헤더 --%>
+						<tr>
+							<th colspan="2" style="background-color: #eeeeee; text-align: center;">게시판 글쓰기 양식</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="text" class="form-control" placeholder="글 제목" name="bbsTitle" maxlength="50"></td>
+						</tr>
+						<tr>
+							<td><textarea class="form-control" placeholder="글 내용" name="bbsContent" maxlength="2048" style="height: 350px;"></textarea></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" class="btn btn-primary pull-right" value ="글쓰기">
+			</form>
 		</div>
 	</div>
 	
