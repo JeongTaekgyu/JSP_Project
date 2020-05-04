@@ -13,8 +13,9 @@
 </head>
 <body>
 	<%
-		// 로그인이된 사람들은 로그인 정보를 담을 수 있도록 만들어준다.
 		String userID = null;	// 로그인을 안하면 아래 if문 안들어가니까 null 값만 들어있다
+		
+		// 로그인이된 사람들은 로그인 정보를 담을 수 있도록 만들어준다.
 		if(session.getAttribute("userID") != null)
 		{	// 세션이 있는 사용자는 자신(userID)에게 할당된 세션값이 담긴다.
 			userID = (String) session.getAttribute("userID");
@@ -99,20 +100,21 @@
 				<tbody>
 					<tr>
 						<td style="width: 20%;">글 제목</td>
-						<td collspan="2"><%= bbs.getBbsTitle() %></td>
+						<%-- 크로스 사이트 스크립트 공격 을 방지해준다. --%>
+						<td colspan="2"><%= bbs.getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 					</tr>
 					<tr>
 						<td>작성자</td>
-						<td collspan="2"><%= bbs.getUserID() %></td>
+						<td colspan="2"><%= bbs.getUserID() %></td>
 					</tr>
 					<tr>
 						<td>작성일자</td>
-						<td collspan="2"><%= bbs.getBbsDate().substring(0,11) + bbs.getBbsDate().substring(11,13) + "시" 
+						<td colspan="2"><%= bbs.getBbsDate().substring(0,11) + bbs.getBbsDate().substring(11,13) + "시" 
 								+ bbs.getBbsDate().substring(14,16) + "분" %></td>
 					</tr>
 					<tr>
 						<td>내용</td>
-						<td collspan="2" style="min-height: 200px; text-align: left;"><%= bbs.getBbsContent() %></td>
+						<td colspan="2" style="min-height: 200px; text-align: left;"><%= bbs.getBbsContent().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 					</tr>
 				</tbody>
 			</table>
@@ -122,11 +124,12 @@
 				if(userID != null && userID.equals(bbs.getUserID())){
 			%>
 				<a href="update.jsp?bbsID=<%= bbsID %>" class="btn btn-primary">수정</a>
-				<a href="deleteAction.jsp?bbsID=<%= bbsID%>" class="btn btn-primary">목록</a>
+				<a href="deleteAction.jsp?bbsID=<%= bbsID%>" class="btn btn-primary">삭제</a>
 			<%
 				}
 			%>
 			<input type="submit" class="btn btn-primary pull-right" value ="글쓰기">
+			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>
 	

@@ -139,9 +139,7 @@ public class BbsDAO {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, bbsID);
-			// getNext : 그 다음으로 작성될 글의 번호
-			// 현재 글이 5개이고 다음으로 작성될 글의 번호가 6일떄, 6 - (1-1)*10
-			// 즉 한 페이지에 최대 10개 까지만 보여주기로 했으므로 글이 5개 있을때는 pageNumber = 1 이다.
+
 			rs = pstmt.executeQuery();	// 실제로 실행했을 때 나오는 결과
 			 
 			if(rs.next()) {
