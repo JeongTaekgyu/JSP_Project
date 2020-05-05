@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>	<%--자바스크립트 문장을 작성하기 위해 라이브러리를 불러온다. --%>
-<%@ page import="bbs.Bbs" %>
-<%@ page import="bbs.BbsDAO" %>	<%-- 데이터베이스 접근 객체를 가져온다 --%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewprot" content="width=device-width", initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/custom.css">
 <title>JSP 게시판 웹 사이트</title>
 </head>
 <body>
@@ -19,23 +18,6 @@
 		{	// 세션이 있는 사용자는 자신(userID)에게 할당된 세션값이 담긴다.
 			userID = (String) session.getAttribute("userID");
 		}
-		
-		int bbsID = 0;
-		// 매개변수로 넘어온 bbsID가 존재한다면
-		if(request.getParameter("bbsID") != null){
-			bbsID = Integer.parseInt(request.getParameter("bbsID"));
-		}
-		// 존재하지 않으면
-		if(bbsID == 0){
-			PrintWriter script = response.getWriter();	// 하나의 스크립트 문장을 넣어줄 수 있도록한다.
-			script.println("<script>");
-			script.println("alert('유효하지 않은 글입니다.')");
-			script.println("location.href = 'bbs.jsp'");	// 이전의 페이지로 돌려보낸다.
-			script.println("</script>");
-		}
-		
-		// bbsID 0이 아니면 구체적인 정보를 bbs 인스턴스에 담는다.
-		Bbs bbs = new BbsDAO().getBbs(bbsID);
 	%>
 	<nav class ="navbar navbar-default">
 		<div class ="navbar-header">
@@ -46,12 +28,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="main.jsp">JSP 게시판 웹 사이트</a>
+			<a class="navbar-brand" href="main.jsp">JSP 게시판 웹사이트</a>
 		</div>
 		<div class ="collapse navbar-collapse" id ="#bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="main.jsp">메인</a></li>
-				<li class="active"><a href="bbs.jsp">게시판</a></li>
+				<li class="active"><a href="main.jsp">메인</a></li>
+				<li><a href="bbs.jsp">게시판</a></li>
 			</ul>
 			
 			<%	// 로그인이 되어있지 않은 경우라면  로그인이나 회원가입을 할 수 있다.
@@ -87,31 +69,24 @@
 			
 		</div>
 	</nav>
-	
 	<div class="container">
-		<div class="row">
-			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
-				<thead>	<%-- 테이블의 헤더 --%>
-					<tr>
-						<th colspan="3" style="background-color: #eeeeee; text-align: center;">게시판 글보기  양식</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="width: 20%;">글 제목</td>
-						<td collspan="2"><%= bbs.getBbsTitle() %></td>
-					</tr>
-					<tr>
-						<td>작성자</td>
-						<td collspan="2"><%= bbs.getUserID() %></td>
-					</tr>
-					<tr>
-						<td>작성일자</td>
-						<td collspan="2"><%= bbs.getUserID() %></td>
-					</tr>
-				</tbody>
-			</table>
-			<input type="submit" class="btn btn-primary pull-right" value ="글쓰기">
+		<div class="jumbotron">
+			<div class="container">
+				<h1>웹 사이트 소개</h1>
+				<p>이 웹사이트는 부트스트랩으로 만든 JSP웹 사이트 입니다. 최소한의 간단한 로직만을 이용해서 개발했습니다. 디자인 템플릿으로는 부트스트랩을 이용했습니다.</p>
+				<p><a class="btn btn-primary btn-pull" href="https://github.com/JeongTaekgyu/JSP_Project" role="button">자세히 알아보기</a></p>
+			</div>
+		</div>
+	</div>
+	
+	<%-- carousel은 사진첩 같은 개념이다. --%>
+	<div class="container">
+		<div id="myCarousel" class="carousel" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
 		</div>
 	</div>
 	
