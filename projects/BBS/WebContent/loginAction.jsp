@@ -4,7 +4,7 @@
 <%@ page import="user.UserDAO" %>	<%--UserDAO 클래스를 가져온다. --%>
 <%@ page import="java.io.PrintWriter" %>	<%--자바스크립트 문장을 작성하기 위해 라이브러리를 불러온다. --%>
 <% request.setCharacterEncoding("UTF-8"); %><%--건너오는 모든 데이터를 UTF-8로 받을 수 있게 한다. --%>
-<jsp:useBean id="user" class="user.User" scope="page" /> <%--현재 페이지에서만 Bean이 사용될 수 있도록 한다. --%>
+<jsp:useBean id="user" class="user.User" scope="page" /> <%--현재 페이지(scope="page")에서만 Bean이 사용될 수 있도록 한다. --%>
 <jsp:setProperty name="user" property="userID" />	<%--login.jsp 페이지에서 넘겨준 userID를 받는다  --%>
 <jsp:setProperty name="user" property="userPassword" />
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 	<%
 		String userID = null;
 		if(session.getAttribute("userID") != null)	// 세션이 존재하는 회원들은
-		{
+		{	// 아하 여기서 userID는 login.jsp에서 넘겨준 name = "userID"를 받는거구나??
 			userID = (String) session.getAttribute("userID");// userID에 해당 세션 값을 넣어 준다.
 			// userID라는 변수가 자신에게 할당된 세션ID를 담을 수 있도록한다.
 		}	
@@ -31,6 +31,8 @@
 		
 		UserDAO userDAO = new UserDAO(); // db에 접근할 수 있는 객체를 만든다.
 		int result = userDAO.login(user.getUserID(), user.getUserPassword());
+		// 여기서 user.getUserID() 한거에서 user. 는 어디서 가져 온거지? 설마 user 패키지 인가?
+		// 그게 아니라 <jsp:setProperty name="user" property="userID" />	 (login.jsp 페이지에서 넘겨준 userID를 받는다)  인것같다.
 		
 		if(result == 1){	// 로그인 성공
 			session.setAttribute("userID", user.getUserID()); // 로그인에 성공했을 떄 각 사용자마다 세션값을 부여한다.

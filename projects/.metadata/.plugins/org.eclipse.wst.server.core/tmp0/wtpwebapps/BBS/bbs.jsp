@@ -24,17 +24,18 @@
 	<%
 		// 로그인이된 사람들은 로그인 정보를 담을 수 있도록 만들어준다.
 		String userID = null;	// 로그인을 안하면 아래 if문 안들어가니까 null 값만 들어있다
-		if(session.getAttribute("userID") != null)
+		if(session.getAttribute("userID") != null) // userID가 있으면
 		{	// 세션이 있는 사용자는 자신(userID)에게 할당된 세션값이 담긴다.
 			userID = (String) session.getAttribute("userID");
 		}
 		
-		int pageNumber = 1;	// 현재 게시판의 페이지넘버
+		int pageNumber = 1;	// 현재 게시판의 페이지넘버(최초 1을 넣어준다)
 		// pageNumber가 있으면 넣어준다.
 		if(request.getParameter("pageNumber") != null){
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));	
 		}
 	%>
+	
 	<nav class ="navbar navbar-default">
 		<div class ="navbar-header">
 			<button type ="button" class ="navbar-toggle collapsed"
@@ -103,9 +104,7 @@
 						ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
 						
 						// 현재 게시글에 대한 정보를 보여준다.
-						for(int i = 0; i < list.size(); i++){
-							
-						
+						for(int i = 0; i < list.size(); i++){							
 					%>
 						<tr>
 							<td><%= list.get(i).getBbsID() %></td>
@@ -113,6 +112,14 @@
 							<td><%= list.get(i).getUserID() %></td>
 							<td><%= list.get(i).getBbsDate().substring(0,11) + list.get(i).getBbsDate().substring(11,13) + "시" 
 							+ list.get(i).getBbsDate().substring(14,16) + "분"%></td>
+							<%	
+								//if(userID.equals("root"))
+								//{
+							%>
+									<td>삭제</td>
+							<% 
+								//}
+							%>
 						</tr>
 					<%
 						}
@@ -133,6 +140,17 @@
 			<%
 				}
 			%>
+			
+			<%	
+				//if(userID.equals("root"))
+				//{
+			%>
+					<input type="submit" class="btn btn-primary pull-right" value ="글쓰기2">
+					<a href="write.jsp" class="btn btn-primary pull-right">관리자 모드</a>
+			<% 
+				//}
+			%>
+			
 			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>

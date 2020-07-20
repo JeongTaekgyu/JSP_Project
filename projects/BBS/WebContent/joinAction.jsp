@@ -5,7 +5,7 @@
 <%@ page import="java.io.PrintWriter" %>	<%--자바스크립트 문장을 작성하기 위해 라이브러리를 불러온다. --%>
 <% request.setCharacterEncoding("UTF-8"); %><%--건너오는 모든 데이터를 UTF-8로 받을 수 있게 한다. --%>
 <jsp:useBean id="user" class="user.User" scope="page" /> <%--현재 페이지에서만 Bean이 사용될 수 있도록 한다. --%>
-<jsp:setProperty name="user" property="userID" />	<%--login.jsp 페이지에서 넘겨준 userID를 받는다  --%>
+<jsp:setProperty name="user" property="userID" />	<%--join.jsp 페이지에서 넘겨준 userID를 받는다  --%>
 <jsp:setProperty name="user" property="userPassword" />
 <jsp:setProperty name="user" property="userName" />
 <jsp:setProperty name="user" property="userGender" />

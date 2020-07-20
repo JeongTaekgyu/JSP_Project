@@ -35,6 +35,7 @@ elemUnnecessaryEnd=2
 elementNamesToIgnore=
 ignoreAttrNames=false
 ignoreElementNames=false
+outputCodeset=UTF-8
 piInvalidContent=2
 piUnclosed=1
 piUndefined=2

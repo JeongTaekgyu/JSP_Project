@@ -17,11 +17,11 @@
 		String userID = null;	// 로그인을 안하면 아래 if문 안들어가니까 null 값만 들어있다
 		
 		// 로그인이된 사람들은 로그인 정보를 담을 수 있도록 만들어준다.
-		if(session.getAttribute("userID") != null)
+		if(session.getAttribute("userID") != null) 
 		{	// 세션이 있는 사용자는 자신(userID)에게 할당된 세션값이 담긴다.
 			userID = (String) session.getAttribute("userID");
 		}
-		
+
 		int bbsID = 0;
 		// 매개변수로 넘어온 bbsID가 존재한다면
 		if(request.getParameter("bbsID") != null){
@@ -129,7 +129,7 @@
 			<%
 				}
 			%>
-			<input type="submit" class="btn btn-primary pull-right" value ="글쓰기">
+			<%-- <input type="submit" class="btn btn-primary pull-right" value ="글쓰기2"> --%>
 			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>

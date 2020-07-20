@@ -8,57 +8,58 @@ import java.util.ArrayList;
 
 public class BbsDAO {
 	
-	private Connection conn;	// db¿¡ Á¢±ÙÇÏ°Ô ÇØÁÖ´Â ÇÏ³ªÀÇ °´Ã¼
-	// private PreparedStatement pstmt;// SQLÀÎÁ§¼Ç °°Àº ÇØÅ· ±â¹ıÀ» ¹æ¹öÇÏ±â À§ÇÑ ¼ö´ÜÀ¸·Î½á PreparedStatment¸¦ ÀÌ¿ëÇÑ´Ù. 
-	// BbsDAO Å¬·¡½º´Â ¿©·¯°³ÀÇ ÇÔ¼ö°¡ »ç¿ëµÇ±â ¶§¹®¿¡ °¢°¢ÇÔ¼ö³¢¸® DBÁ¢±Ù¿¡ ÀÖ¾î¼­ ¸¶ÂûÀÌ ÀÏ¾î³ªÁö ¾Êµµ·Ï ÇÏ±âÀ§ÇØ ÀÌ°÷¿¡¼­´Â PreparedStatement´Â »ç¿ëÇÏÁö ¾Ê´Â´Ù.
-	private ResultSet rs;	// Á¤º¸¸¦ ´ãÀ» ¼ö ÀÖ´Â ÇÏ³ªÀÇ °´Ã¼
+	private Connection conn;	// dbì— ì ‘ê·¼í•˜ê²Œ í•´ì£¼ëŠ” í•˜ë‚˜ì˜ ê°ì²´
+	// private PreparedStatement pstmt;// SQLì¸ì ì…˜ ê°™ì€ í•´í‚¹ ê¸°ë²•ì„ ë°©ë²„í•˜ê¸° ìœ„í•œ ìˆ˜ë‹¨ìœ¼ë¡œì¨ PreparedStatmentë¥¼ ì´ìš©í•œë‹¤. 
+	// BbsDAO í´ë˜ìŠ¤ëŠ” ì—¬ëŸ¬ê°œì˜ í•¨ìˆ˜ê°€ ì‚¬ìš©ë˜ê¸° ë•Œë¬¸ì— ê°ê°í•¨ìˆ˜ë¼ë¦¬ DBì ‘ê·¼ì— ìˆì–´ì„œ ë§ˆì°°ì´ ì¼ì–´ë‚˜ì§€ ì•Šë„ë¡ í•˜ê¸°ìœ„í•´ ì´ê³³ì—ì„œëŠ” PreparedStatementëŠ” ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤.
+	private ResultSet rs;	// ì •ë³´ë¥¼ ë‹´ì„ ìˆ˜ ìˆëŠ” í•˜ë‚˜ì˜ ê°ì²´
 	
-	// UserDAO()¸¦ ÇÏ³ªÀÇ °´Ã¼·Î ¸¸µé¾úÀ» ‹š ÀÚµ¿À¸·Î databaseÄ¿³Ø¼ÇÀÌ ÀÌ·ç¾î Áú ¼ö ÀÖµµ·Ï ÇØÁØ´Ù.
+	// UserDAO()ë¥¼ í•˜ë‚˜ì˜ ê°ì²´ë¡œ ë§Œë“¤ì—ˆì„ Â‹Âš ìë™ìœ¼ë¡œ databaseì»¤ë„¥ì…˜ì´ ì´ë£¨ì–´ ì§ˆ ìˆ˜ ìˆë„ë¡ í•´ì¤€ë‹¤.
 	public BbsDAO() {
 		try {
 			String dbURL ="jdbc:mysql://localhost:3333/BBS";
 			String dbID ="root";
 			String dbPassword = "013174zz";
-			Class.forName("com.mysql.jdbc.Driver"); // Driver´Â mysql¿¡ Á¢¼ÓÇÒ ¼ö ÀÖµµ·Ï ¸Å°³Ã¼ ¿ªÇÒÀ» ÇØÁÖ´Â ÇÏ³ªÀÇ ¶óÀÌºê·¯¸®ÀÌ´Ù.
+			Class.forName("com.mysql.jdbc.Driver"); // DriverëŠ” mysqlì— ì ‘ì†í•  ìˆ˜ ìˆë„ë¡ ë§¤ê°œì²´ ì—­í• ì„ í•´ì£¼ëŠ” í•˜ë‚˜ì˜ ë¼ì´ë¸ŒëŸ¬ë¦¬ì´ë‹¤.
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		} catch (Exception e){
-			e.printStackTrace();	// ÇØ´ç ¿¹¿Ü¸¦ Ãâ·ÂÇÑ´Ù.
+			e.printStackTrace();	// í•´ë‹¹ ì˜ˆì™¸ë¥¼ ì¶œë ¥í•œë‹¤.
 		}
 	}
 	
-	// ÇöÀç ½Ã°£À» °¡Á®¿À´Â ÇÔ¼ö - °Ô½ÃÆÇÀÇ ±ÛÀ» ÀÛ¼ºÇÒ‹š ÇöÀç¼­¹ö½Ã°£À» ³Ö¾îÁÖ·Á°í
+	// í˜„ì¬ ì‹œê°„ì„ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜ - ê²Œì‹œíŒì˜ ê¸€ì„ ì‘ì„±í• Â‹Âš í˜„ì¬ì„œë²„ì‹œê°„ì„ ë„£ì–´ì£¼ë ¤ê³ 
 	public String getDate() {
 		String SQL ="SELECT NOW()";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			rs = pstmt.executeQuery();	// ½ÇÁ¦·Î ½ÇÇàÇßÀ» ¶§ ³ª¿À´Â °á°ú
+			rs = pstmt.executeQuery();	// ì‹¤ì œë¡œ ì‹¤í–‰í–ˆì„ ë•Œ ë‚˜ì˜¤ëŠ” ê²°ê³¼
 			
 			if(rs.next()) {
-				return rs.getString(1);	// ÇöÀçÀÇ ³¯Â¥¸¦ ±×´ë·Î ¹İÈ¯ÇÑ´Ù. (getString(n)ÇØ´ç ¼ø¼­¿¡ ÀÖ´Â ¿­À» ¹İÈ¯ÇÑ´Ù.)
+				return rs.getString(1);	// í˜„ì¬ì˜ ë‚ ì§œë¥¼ ê·¸ëŒ€ë¡œ ë°˜í™˜í•œë‹¤. (getString(n)í•´ë‹¹ ìˆœì„œì— ìˆëŠ” ì—´ì„ ë°˜í™˜í•œë‹¤.)
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return ""; // µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù
+		return ""; // ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 	
 	public int getNext() {
 		String SQL ="SELECT bbsID FROM BBS ORDER BY bbsID DESC";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			rs = pstmt.executeQuery();	// ½ÇÁ¦·Î ½ÇÇàÇßÀ» ¶§ ³ª¿À´Â °á°ú
+			rs = pstmt.executeQuery();	// ì‹¤ì œë¡œ ì‹¤í–‰í–ˆì„ ë•Œ ë‚˜ì˜¤ëŠ” ê²°ê³¼
 			
+			//System.out.println("rs: "+rs); -> rs: com.mysql.jdbc.JDBC42ResultSet@6384bd78 ì´ëŸ°ì‹ìœ¼ë¡œ ì¶œë ¥ë¨
 			if(rs.next()) {
 				return rs.getInt(1) + 1;
 			}
-			return 1; // Ã¹ ¹ø¤Š °Ô½Ã¹°ÀÎ °æ¿ì
+			return 1; // ì²« ë²ˆÂŠ ê²Œì‹œë¬¼ì¸ ê²½ìš°
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -1; // µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù
+		return -1; // ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 	
-	// ÇÏ³ªÀÇ °Ô½Ã¹°À» ½ÇÁ¦·Î »ğÀÔÇÏ´Â ÇÔ¼ö
+	// í•˜ë‚˜ì˜ ê²Œì‹œë¬¼ì„ ì‹¤ì œë¡œ ì‚½ì…í•˜ëŠ” í•¨ìˆ˜
 	public int write(String bbsTitle, String userID, String bbsContent) {
 		String SQL = "INSERT INTO BBS VALUES (?, ?, ?, ?, ?, ?)";
 		
@@ -69,28 +70,28 @@ public class BbsDAO {
 			pstmt.setString(3, userID);
 			pstmt.setString(4, getDate());
 			pstmt.setString(5, bbsContent);
-			pstmt.setInt(6, 1);	// bbsAvailableÀ» 1·Î ¸¸µê
+			pstmt.setInt(6, 1);	// bbsAvailableì„ 1ë¡œ ë§Œë“¦
 			
-			return pstmt.executeUpdate(); // ¼º°øÀûÀ¸·Î °Ô½Ã±ÛÀ» ¹İÈ¯
-			// executeUpdate´Â  INSERT / DELETE / UPDATE °ü·Ã ±¸¹®¿¡¼­´Â ¹İ¿µµÈ ·¹ÄÚµåÀÇ °Ç¼ö¸¦ ¹İÈ¯ÇÑ´Ù.
-			// CREATE / DROP °ü·Ã ±¸¹®¿¡¼­´Â -1 À» ¹İÈ¯ÇÑ´Ù.
+			return pstmt.executeUpdate(); // ì„±ê³µì ìœ¼ë¡œ ê²Œì‹œê¸€ì„ ë°˜í™˜
+			// executeUpdateëŠ”  INSERT / DELETE / UPDATE ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” ë°˜ì˜ëœ ë ˆì½”ë“œì˜ ê±´ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤.
+			// CREATE / DROP ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” -1 ì„ ë°˜í™˜í•œë‹¤.
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -1; // µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù
+		return -1; // ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 	
 	public ArrayList<Bbs> getList(int pageNumber){
-		// bbsID°¡ Æ¯Á¤°ªº¸´Ù ÀÛ°í, »èÁ¦°¡ µÇÁö ¾Ê¾Æ¼­ bbsAvailableÀÌ 1 ÀÎ ±Ûµé¸¸ °¡Á®¿Ã ¼ö ÀÖµµ·Ï ÇÔ , bbsID·Î ³»¸²Â÷¼ø Á¤·ÄÇÏ°í, À§¿¡¼­ 10°³ ±îÁö¸¸ ºÒ·¯¿È
+		// bbsIDê°€ íŠ¹ì •ê°’ë³´ë‹¤ ì‘ê³ , ì‚­ì œê°€ ë˜ì§€ ì•Šì•„ì„œ bbsAvailableì´ 1 ì¸ ê¸€ë“¤ë§Œ ê°€ì ¸ì˜¬ ìˆ˜ ìˆë„ë¡ í•¨ , bbsIDë¡œ ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬í•˜ê³ , ìœ„ì—ì„œ 10ê°œ ê¹Œì§€ë§Œ ë¶ˆëŸ¬ì˜´
 		String SQL ="SELECT *FROM BBS WHERE bbsID < ? And bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
-			// getNext : ±× ´ÙÀ½À¸·Î ÀÛ¼ºµÉ ±ÛÀÇ ¹øÈ£
-			// ÇöÀç ±ÛÀÌ 5°³ÀÌ°í ´ÙÀ½À¸·Î ÀÛ¼ºµÉ ±ÛÀÇ ¹øÈ£°¡ 6ÀÏ‹š, 6 - (1-1)*10
-			// Áï ÇÑ ÆäÀÌÁö¿¡ ÃÖ´ë 10°³ ±îÁö¸¸ º¸¿©ÁÖ±â·Î ÇßÀ¸¹Ç·Î ±ÛÀÌ 5°³ ÀÖÀ»¶§´Â pageNumber = 1 ÀÌ´Ù.
-			rs = pstmt.executeQuery();	// ½ÇÁ¦·Î ½ÇÇàÇßÀ» ¶§ ³ª¿À´Â °á°ú
+			// getNext : ê·¸ ë‹¤ìŒìœ¼ë¡œ ì‘ì„±ë  ê¸€ì˜ ë²ˆí˜¸
+			// í˜„ì¬ ê¸€ì´ 5ê°œì´ê³  ë‹¤ìŒìœ¼ë¡œ ì‘ì„±ë  ê¸€ì˜ ë²ˆí˜¸ê°€ 6ì¼Â‹Âš, 6 - (1-1)*10
+			// ì¦‰ í•œ í˜ì´ì§€ì— ìµœëŒ€ 10ê°œ ê¹Œì§€ë§Œ ë³´ì—¬ì£¼ê¸°ë¡œ í–ˆìœ¼ë¯€ë¡œ ê¸€ì´ 5ê°œ ìˆì„ë•ŒëŠ” pageNumber = 1 ì´ë‹¤.
+			rs = pstmt.executeQuery();	// ì‹¤ì œë¡œ ì‹¤í–‰í–ˆì„ ë•Œ ë‚˜ì˜¤ëŠ” ê²°ê³¼
 			 
 			while(rs.next()) {
 				Bbs bbs = new Bbs();
@@ -107,40 +108,40 @@ public class BbsDAO {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return list; // °Ô½Ã±Û ¸®½ºÆ®¸¦ ¹İÈ¯ÇÑ´Ù.
+		return list; // ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ë¥¼ ë°˜í™˜í•œë‹¤.
 	}
 	
-	// ÆäÀÌÁö Ã³¸®¸¦ À§ÇÑ ¸Ş¼­µå ( °Ô½Ã±ÛÀÌ 10°³ ´ÜÀ§´Ï±î 10°³ ÀÌÇÏÀÌ¸é ´ÙÀ½ÆäÀÌÁö°¡ ¾ø´Ù. )
+	// í˜ì´ì§€ ì²˜ë¦¬ë¥¼ ìœ„í•œ ë©”ì„œë“œ ( ê²Œì‹œê¸€ì´ 10ê°œ ë‹¨ìœ„ë‹ˆê¹Œ 10ê°œ ì´í•˜ì´ë©´ ë‹¤ìŒí˜ì´ì§€ê°€ ì—†ë‹¤. )
 	public boolean nextPage(int pageNumber) {
 		String SQL ="SELECT *FROM BBS WHERE bbsID < ? And bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
-			// getNext : ±× ´ÙÀ½À¸·Î ÀÛ¼ºµÉ ±ÛÀÇ ¹øÈ£
-			// ÇöÀç ±ÛÀÌ 5°³ÀÌ°í ´ÙÀ½À¸·Î ÀÛ¼ºµÉ ±ÛÀÇ ¹øÈ£°¡ 6ÀÏ‹š, 6 - (1-1)*10
-			// Áï ÇÑ ÆäÀÌÁö¿¡ ÃÖ´ë 10°³ ±îÁö¸¸ º¸¿©ÁÖ±â·Î ÇßÀ¸¹Ç·Î ±ÛÀÌ 5°³ ÀÖÀ»¶§´Â pageNumber = 1 ÀÌ´Ù.
-			rs = pstmt.executeQuery();	// ½ÇÁ¦·Î ½ÇÇàÇßÀ» ¶§ ³ª¿À´Â °á°ú
+			// getNext : ê·¸ ë‹¤ìŒìœ¼ë¡œ ì‘ì„±ë  ê¸€ì˜ ë²ˆí˜¸
+			// í˜„ì¬ ê¸€ì´ 5ê°œì´ê³  ë‹¤ìŒìœ¼ë¡œ ì‘ì„±ë  ê¸€ì˜ ë²ˆí˜¸ê°€ 6ì¼Â‹Âš, 6 - (1-1)*10
+			// ì¦‰ í•œ í˜ì´ì§€ì— ìµœëŒ€ 10ê°œ ê¹Œì§€ë§Œ ë³´ì—¬ì£¼ê¸°ë¡œ í–ˆìœ¼ë¯€ë¡œ ê¸€ì´ 5ê°œ ìˆì„ë•ŒëŠ” pageNumber = 1 ì´ë‹¤.
+			rs = pstmt.executeQuery();	// ì‹¤ì œë¡œ ì‹¤í–‰í–ˆì„ ë•Œ ë‚˜ì˜¤ëŠ” ê²°ê³¼
 			 
 			if(rs.next()) {
-				return true; // ´ÙÀ½ÆäÀÌÁö·Î ³Ñ¾î°¥ ¼ö ÀÖ´Ù.
+				return true; // ë‹¤ìŒí˜ì´ì§€ë¡œ ë„˜ì–´ê°ˆ ìˆ˜ ìˆë‹¤.
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return false; // ´ÙÀ½ ÆäÀÌÁö°¡ ¾ø´Ù¸é
+		return false; // ë‹¤ìŒ í˜ì´ì§€ê°€ ì—†ë‹¤ë©´
 	}
 	
-	// ÇÏ³ªÀÇ ±Û ³»¿ëÀ» ºÒ·¯¿À´Â ÇÔ¼ö
+	// í•˜ë‚˜ì˜ ê¸€ ë‚´ìš©ì„ ë¶ˆëŸ¬ì˜¤ëŠ” í•¨ìˆ˜
 	public Bbs getBbs(int bbsID) {
-		// Æ¯Á¤ÇÑ ¾ÆÀÌµğ¿¡ ÇØ´çÇÏ´Â °Ô½Ã±ÛÀ» ºÒ·¯¿Â´Ù.
+		// íŠ¹ì •í•œ ì•„ì´ë””ì— í•´ë‹¹í•˜ëŠ” ê²Œì‹œê¸€ì„ ë¶ˆëŸ¬ì˜¨ë‹¤.
 		String SQL ="SELECT *FROM BBS WHERE bbsID = ?";
 
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, bbsID);
 
-			rs = pstmt.executeQuery();	// ½ÇÁ¦·Î ½ÇÇàÇßÀ» ¶§ ³ª¿À´Â °á°ú
+			rs = pstmt.executeQuery();	// ì‹¤ì œë¡œ ì‹¤í–‰í–ˆì„ ë•Œ ë‚˜ì˜¤ëŠ” ê²°ê³¼
 			 
 			if(rs.next()) {
 				Bbs bbs = new Bbs();
@@ -157,12 +158,12 @@ public class BbsDAO {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null; // ÇØ´ç ±ÛÀÌ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
+		return null; // í•´ë‹¹ ê¸€ì´ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
 	}
 	
-	// ±ÛÀ» ¼öÁ¤ÇÏ´Â ÇÔ¼ö
+	// ê¸€ì„ ìˆ˜ì •í•˜ëŠ” í•¨ìˆ˜
 	public int update(int bbsID, String bbsTitle, String bbsContent) {
-		// Æ¯Á¤ bbsID¿¡ ÇØ´çÇÏ´Â Á¦¸ñ°ú ³»¿ëÀ» ¹Ù²ãÁÖ°Ú´Ù.
+		// íŠ¹ì • bbsIDì— í•´ë‹¹í•˜ëŠ” ì œëª©ê³¼ ë‚´ìš©ì„ ë°”ê¿”ì£¼ê² ë‹¤.
 		String SQL = "UPDATE BBS SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
 		
 		try {
@@ -171,29 +172,29 @@ public class BbsDAO {
 			pstmt.setString(2, bbsContent);
 			pstmt.setInt(3, bbsID);
 			
-			return pstmt.executeUpdate(); // ¼º°øÀûÀ¸·Î °Ô½Ã±ÛÀ» ¹İÈ¯
-			// executeUpdate´Â  INSERT / DELETE / UPDATE °ü·Ã ±¸¹®¿¡¼­´Â ¹İ¿µµÈ ·¹ÄÚµåÀÇ °Ç¼ö¸¦ ¹İÈ¯ÇÑ´Ù.
-			// CREATE / DROP °ü·Ã ±¸¹®¿¡¼­´Â -1 À» ¹İÈ¯ÇÑ´Ù.
+			return pstmt.executeUpdate(); // ì„±ê³µì ìœ¼ë¡œ ê²Œì‹œê¸€ì„ ë°˜í™˜
+			// executeUpdateëŠ”  INSERT / DELETE / UPDATE ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” ë°˜ì˜ëœ ë ˆì½”ë“œì˜ ê±´ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤.
+			// CREATE / DROP ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” -1 ì„ ë°˜í™˜í•œë‹¤.
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -1; // µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù
+		return -1; // ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 	
-	// ±ÛÀ» »èÁ¦ÇÏ´Â ÇÔ¼ö
+	// ê¸€ì„ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜
 	public int delete(int bbsID) {
-		// ±ÛÀ» »èÁ¦ÇÏ´õ¶óµµ ±Û¿¡ ´ëÇÑ Á¤º¸°¡ ³²¾Æ ÀÖÀ» ¼ö ÀÖµµ·Ï ÇÑ´Ù.
+		// ê¸€ì„ ì‚­ì œí•˜ë”ë¼ë„ ê¸€ì— ëŒ€í•œ ì •ë³´ê°€ ë‚¨ì•„ ìˆì„ ìˆ˜ ìˆë„ë¡ í•œë‹¤.
 		String SQL = "UPDATE BBS SET bbsAvailable = 0 WHERE bbsID = ?";
 				
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, bbsID);
-			return pstmt.executeUpdate(); // ¼º°øÀûÀ¸·Î °Ô½Ã±ÛÀ» ¹İÈ¯
-			// executeUpdate´Â  INSERT / DELETE / UPDATE °ü·Ã ±¸¹®¿¡¼­´Â ¹İ¿µµÈ ·¹ÄÚµåÀÇ °Ç¼ö¸¦ ¹İÈ¯ÇÑ´Ù.
-			// CREATE / DROP °ü·Ã ±¸¹®¿¡¼­´Â -1 À» ¹İÈ¯ÇÑ´Ù.
+			return pstmt.executeUpdate(); // ì„±ê³µì ìœ¼ë¡œ ê²Œì‹œê¸€ì„ ë°˜í™˜
+			// executeUpdateëŠ”  INSERT / DELETE / UPDATE ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” ë°˜ì˜ëœ ë ˆì½”ë“œì˜ ê±´ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤.
+			// CREATE / DROP ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” -1 ì„ ë°˜í™˜í•œë‹¤.
 		} catch(Exception e) {
 				e.printStackTrace();
 		}
-		return -1; // µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù
+		return -1; // ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 }

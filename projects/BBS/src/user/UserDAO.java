@@ -5,57 +5,57 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-// jsp¿¡¼­ È¸¿ø db Å×ÀÌºí¿¡ Á¢±ÙÇÒ ¼ö ÀÖµµ·Ï DAO(database access object)¸¦ ¸¸µé¾î ¾ßÇÑ´Ù. 
-// DAO(database access object) : ½ÇÁ¦·Î db¿¡ Á¢±ÙÇØ¼­ µ¥ÀÌÅÍ¸¦ °¡Á®¿À°Å³ª ³Ö°Å³ªÇÏ´Â µ¥ÀÌÅÍ Á¢±Ù °´Ã¼ÀÌ´Ù.
-// ½ÇÁúÀûÀ¸·Î È¸¿øÁ¤º¸¸¦ ºÒ·¯¿À°Å³ª db¿¡ È¸¿øÁ¤º¸¸¦ ³Ö°íÀÚ ÇÒ¶§ »ç¿ëÇÑ´Ù.
+// jspì—ì„œ íšŒì› db í…Œì´ë¸”ì— ì ‘ê·¼í•  ìˆ˜ ìˆë„ë¡ DAO(database access object)ë¥¼ ë§Œë“¤ì–´ ì•¼í•œë‹¤. 
+// DAO(database access object) : ì‹¤ì œë¡œ dbì— ì ‘ê·¼í•´ì„œ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ê±°ë‚˜ ë„£ê±°ë‚˜í•˜ëŠ” ë°ì´í„° ì ‘ê·¼ ê°ì²´ì´ë‹¤.
+// ì‹¤ì§ˆì ìœ¼ë¡œ íšŒì›ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ê±°ë‚˜ dbì— íšŒì›ì •ë³´ë¥¼ ë„£ê³ ì í• ë•Œ ì‚¬ìš©í•œë‹¤.
 public class UserDAO {
 	
-	private Connection conn;	// db¿¡ Á¢±ÙÇÏ°Ô ÇØÁÖ´Â ÇÏ³ªÀÇ °´Ã¼
-	private PreparedStatement pstmt;// SQLÀÎÁ§¼Ç °°Àº ÇØÅ· ±â¹ıÀ» ¹æ¹öÇÏ±â À§ÇÑ ¼ö´ÜÀ¸·Î½á PreparedStatment¸¦ ÀÌ¿ëÇÑ´Ù. 
-	private ResultSet rs;	// Á¤º¸¸¦ ´ãÀ» ¼ö ÀÖ´Â ÇÏ³ªÀÇ °´Ã¼
+	private Connection conn;	// dbì— ì ‘ê·¼í•˜ê²Œ í•´ì£¼ëŠ” í•˜ë‚˜ì˜ ê°ì²´
+	private PreparedStatement pstmt;// SQLì¸ì ì…˜ ê°™ì€ í•´í‚¹ ê¸°ë²•ì„ ë°©ë²„í•˜ê¸° ìœ„í•œ ìˆ˜ë‹¨ìœ¼ë¡œì¨ PreparedStatmentë¥¼ ì´ìš©í•œë‹¤. 
+	private ResultSet rs;	// ì •ë³´ë¥¼ ë‹´ì„ ìˆ˜ ìˆëŠ” í•˜ë‚˜ì˜ ê°ì²´
 	
-	// UserDAO()¸¦ ÇÏ³ªÀÇ °´Ã¼·Î ¸¸µé¾úÀ» ‹š ÀÚµ¿À¸·Î databaseÄ¿³Ø¼ÇÀÌ ÀÌ·ç¾î Áú ¼ö ÀÖµµ·Ï ÇØÁØ´Ù.
+	// UserDAO()ë¥¼ í•˜ë‚˜ì˜ ê°ì²´ë¡œ ë§Œë“¤ì—ˆì„ Â‹Âš ìë™ìœ¼ë¡œ databaseì»¤ë„¥ì…˜ì´ ì´ë£¨ì–´ ì§ˆ ìˆ˜ ìˆë„ë¡ í•´ì¤€ë‹¤. (ì‹¤ì œë¡œ mysqlì— ì ‘ì†ì„ í•˜ê²Œ í•´ì£¼ëŠ” ë¶€ë¶„)
 	public UserDAO() {
 		try {
 			String dbURL ="jdbc:mysql://localhost:3333/BBS";
 			String dbID ="root";
 			String dbPassword = "013174zz";
-			Class.forName("com.mysql.jdbc.Driver"); // Driver´Â mysql¿¡ Á¢¼ÓÇÒ ¼ö ÀÖµµ·Ï ¸Å°³Ã¼ ¿ªÇÒÀ» ÇØÁÖ´Â ÇÏ³ªÀÇ ¶óÀÌºê·¯¸®ÀÌ´Ù.
+			Class.forName("com.mysql.jdbc.Driver"); // DriverëŠ” mysqlì— ì ‘ì†í•  ìˆ˜ ìˆë„ë¡ ë§¤ê°œì²´ ì—­í• ì„ í•´ì£¼ëŠ” í•˜ë‚˜ì˜ ë¼ì´ë¸ŒëŸ¬ë¦¬ì´ë‹¤.
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		} catch (Exception e){
-			e.printStackTrace();	// ÇØ´ç ¿¹¿Ü¸¦ Ãâ·ÂÇÑ´Ù.
+			e.printStackTrace();	// í•´ë‹¹ ì˜ˆì™¸ë¥¼ ì¶œë ¥í•œë‹¤.
 		}
 	}
 	
-	// ½ÇÁ¦·Î ·Î±×ÀÎÀ» ½ÃµµÇÏ´Â ÇÏ³ªÀÇ ÇÔ¼ö
+	// ì‹¤ì œë¡œ ë¡œê·¸ì¸ì„ ì‹œë„í•˜ëŠ” í•˜ë‚˜ì˜ í•¨ìˆ˜
 	public int login(String userID, String userPassword) {
-		String SQL = "SELECT userPassword FROM USER WHERE userID =?"; // PreparedStatement ÇÏ³ªÀÇ ¹®ÀåÀ» ÁØºñÇØ ³ù´Ù°¡~
-		// ¸Å°³º¯¼ö·Î µé¾î¿Â userID¸¦ ? ·Î ¹Ş¾Æ¼­ ½ÇÁ¦·Î DB¿¡´Â ÇöÀç Á¢¼ÓÀ» ½ÃµµÇÏ°í ÀÚÇÏ´Â ±× »ç¿ëÀÚÀÇ ¾ÆÀÌµğ¸¦ ¹Ş¾Æ¼­
-		// ±×¾ÆÀÌµğ°¡ ½ÇÁ¦·Î Á¸ÀçÇÏ´ÂÁö ½ÇÁ¦·Î Á¸ÀçÇÑ´Ù¸é ±× ºñ¹øÀº ¹ºÁö db¿¡¼­ °¡Á®¿Â´Ù.
+		String SQL = "SELECT userPassword FROM USER WHERE userID =?"; // PreparedStatement í•˜ë‚˜ì˜ ë¬¸ì¥ì„ ì¤€ë¹„í•´ ë†¨ë‹¤ê°€~
+		// ë§¤ê°œë³€ìˆ˜ë¡œ ë“¤ì–´ì˜¨ userIDë¥¼ ? ë¡œ ë°›ì•„ì„œ ì‹¤ì œë¡œ DBì—ëŠ” í˜„ì¬ ì ‘ì†ì„ ì‹œë„í•˜ê³  ìí•˜ëŠ” ê·¸ ì‚¬ìš©ìì˜ ì•„ì´ë””ë¥¼ ë°›ì•„ì„œ
+		// ê·¸ì•„ì´ë””ê°€ ì‹¤ì œë¡œ ì¡´ì¬í•˜ëŠ”ì§€ ì‹¤ì œë¡œ ì¡´ì¬í•œë‹¤ë©´ ê·¸ ë¹„ë²ˆì€ ë­”ì§€ dbì—ì„œ ê°€ì ¸ì˜¨ë‹¤.
 		
 		try {
-			pstmt = conn.prepareStatement(SQL); // pstmt¿¡ ¾î¶² Á¤ÇØÁø SQL¹®ÀåÀ» DB¿¡ »ğÀÔÇÏ´Â Çü½ÄÀ¸·Î ÀÎ½ºÅÏ½º¸¦ °¡Á®¿Â´Ù.
-			pstmt.setString(1, userID);	// setStringÀ¸·Î SQLÅ¸ÀÔÀ» Ã³¸®ÇØÁØ´Ù. intÇüÀÌ¸é setInt()
-			rs = pstmt.executeQuery();	// ½ÇÇàÇÑ °á°ú¸¦ ³Ö¾îÁØ´Ù
+			pstmt = conn.prepareStatement(SQL); // pstmtì— ì–´ë–¤ ì •í•´ì§„ SQLë¬¸ì¥ì„ DBì— ì‚½ì…í•˜ëŠ” í˜•ì‹ìœ¼ë¡œ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
+			pstmt.setString(1, userID);	// setStringìœ¼ë¡œ SQLíƒ€ì…ì„ ì²˜ë¦¬í•´ì¤€ë‹¤. intí˜•ì´ë©´ setInt()
+			rs = pstmt.executeQuery();	// ì‹¤í–‰í•œ ê²°ê³¼ë¥¼ ë„£ì–´ì¤€ë‹¤
 			
-			if(rs.next()) // °á°ú°¡ Á¸ÀçÇÑ´Ù¸é(id°¡ ÀÖÀ½)
-			{
+			if(rs.next()) // ê²°ê³¼ê°€ ì¡´ì¬í•œë‹¤ë©´(idê°€ ìˆìŒ)
+			{	// ìŒ ê·¼ë° ì´ê±° ì¼ì¼ì´ íƒìƒ‰ í•˜ëŠ” ê±´ê°€? nextë¥¼ ë´ì„  ê·¸ê²Œ ë§ëŠ”ë°
 				//System.out.println("rs.getString(1) : " + rs.getString(1));
-				if(rs.getString(1).equals(userPassword)) // getString()ÇÔ¼ö´Â ÇØ´ç ¼ø¼­ÀÇ ¿­¿¡ÀÖ´Â µ¥ÀÌÅÍ¸¦ StringÇüÀ¸·Î ¹Ş¾Æ¿Â´Ü ¶æÀÌ´Ù. ¿©±â¼­ 1¿­¿¡´Â userPassword°¡ ÀÖ´Ù.
-				{
-					return 1; // ºñ¹Ğ¹øÈ£ ÀÏÄ¡ -> ·Î±×ÀÎ ¼º°ø
+				if(rs.getString(1).equals(userPassword)) // getString()í•¨ìˆ˜ëŠ” í•´ë‹¹ ìˆœì„œì˜ ì—´ì—ìˆëŠ” ë°ì´í„°ë¥¼ Stringí˜•ìœ¼ë¡œ ë°›ì•„ì˜¨ë‹¨ ëœ»ì´ë‹¤. ì—¬ê¸°ì„œ 1ì—´ì—ëŠ” userPasswordê°€ ìˆë‹¤.
+				{  
+					return 1; // ë¹„ë°€ë²ˆí˜¸ ì¼ì¹˜ -> ë¡œê·¸ì¸ ì„±ê³µ
 				}else {
-					return 0; // ºñ¹Ğ¹øÈ£ ºÒÀÏÄ¡
+					return 0; // ë¹„ë°€ë²ˆí˜¸ ë¶ˆì¼ì¹˜
 				}
 			}
-			return -1; // ¾ÆÀÌµğ°¡ ¾øÀ½
+			return -1; // ì•„ì´ë””ê°€ ì—†ìŒ
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -2;	// µ¥ÀÌÅÍº£ÀÌ½º ¿À·ù 
+		return -2;	// ë°ì´í„°ë² ì´ìŠ¤ ì˜¤ë¥˜ 
 	}
 	
-	// ÇØ´ç À¯ÀúÀÇ Á¤º¸¸¦ insertÇÑ´Ù.
+	// í•´ë‹¹ ìœ ì €ì˜ ì •ë³´ë¥¼ insertí•œë‹¤.
 	public int join(User user) {
 		String SQL ="INSERT INTO USER VALUES(?, ?, ?, ?, ?)";
 		
@@ -67,11 +67,11 @@ public class UserDAO {
 			pstmt.setString(4, user.getUserGender());
 			pstmt.setString(5, user.getUserEmail());
 			return pstmt.executeUpdate();
-			// executeUpdate´Â  INSERT / DELETE / UPDATE °ü·Ã ±¸¹®¿¡¼­´Â ¹İ¿µµÈ ·¹ÄÚµåÀÇ °Ç¼ö¸¦ ¹İÈ¯ÇÑ´Ù.
-			// CREATE / DROP °ü·Ã ±¸¹®¿¡¼­´Â -1 À» ¹İÈ¯ÇÑ´Ù.
+			// executeUpdateëŠ”  INSERT / DELETE / UPDATE ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” ë°˜ì˜ëœ ë ˆì½”ë“œì˜ ê±´ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤.
+			// CREATE / DROP ê´€ë ¨ êµ¬ë¬¸ì—ì„œëŠ” -1 ì„ ë°˜í™˜í•œë‹¤.
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		return -1;	// µ¥ÀÌÅÍ º£ÀÌ½º ¿À·ù
+		return -1;	// ë°ì´í„° ë² ì´ìŠ¤ ì˜¤ë¥˜
 	}
 }

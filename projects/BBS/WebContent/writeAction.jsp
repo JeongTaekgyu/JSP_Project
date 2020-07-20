@@ -5,7 +5,7 @@
 <%@ page import="java.io.PrintWriter" %>	<%--자바스크립트 문장을 작성하기 위해 라이브러리를 불러온다. --%>
 <% request.setCharacterEncoding("UTF-8"); %><%--건너오는 모든 데이터를 UTF-8로 받을 수 있게 한다. --%>
 <jsp:useBean id="bbs" class="bbs.Bbs" scope="page" /> <%--id와 class 확실히 알자.. class는 패키지.클래스 인가? --%>
-<jsp:setProperty name="bbs" property="bbsTitle" />	<%--login.jsp 페이지에서 넘겨준 userID를 받는다  --%>
+<jsp:setProperty name="bbs" property="bbsTitle" />	<%-- 페이지(어디???)에서 넘겨준 bbsTitle를 받는다  --%>
 <jsp:setProperty name="bbs" property="bbsContent" />
 <!DOCTYPE html>
 <html>
@@ -31,7 +31,7 @@
 			// 참고로 user는 UserDAO클래스의 join(User user) 메서드에서 에 있는 매개변수와
 			// 위에서 user.UserDAO를 import 했는데  이렇게 이름이 같아야한다.
 			if(bbs.getBbsTitle() == null || bbs.getBbsContent() == null)
-			{
+			{	// ★ getBbsTitle 은 도대체 어디서 넣어주는거야? Bbs.java 페이지에는 선언만 되있다...
 				PrintWriter script = response.getWriter();	// 하나의 스크립트 문장을 넣어줄 수 있도록한다.
 				script.println("<script>");
 				script.println("alert('입력이 안된 사항이 있습니다.')");

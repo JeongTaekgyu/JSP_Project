@@ -72,7 +72,7 @@
 	
 	<div class="container">
 		<div class="row">
-			<form method ="post" action="writeAction.jsp">
+			<form method ="post" action="writeAction.jsp"> <!-- post로 보내지는 내용이 숨겨지도록 한다. -->
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
 					<thead>	<%-- 테이블의 헤더 --%>
 						<tr>

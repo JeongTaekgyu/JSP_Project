@@ -1,9 +1,9 @@
 package bbs;
 
 public class Bbs {
-	// ÀÚ¹Ù ºóÁî´Â ÇÏ³ªÀÇ °Ô½Ã±Û Á¤º¸¸¦ ´ãÀ» ¼ö ÀÖ´Â ÀÎ½ºÅÏ½º¸¦ ¸¸µé±âÀ§ÇÑ Æ²ÀÌ´Ù. »ç½Ç»ó dbÀÇ Å×ÀÌºí°ú Èí»çÇÏ´Ù.
+	// ìžë°” ë¹ˆì¦ˆëŠ” í•˜ë‚˜ì˜ ê²Œì‹œê¸€ ì •ë³´ë¥¼ ë‹´ì„ ìˆ˜ ìžˆëŠ” ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“¤ê¸°ìœ„í•œ í‹€ì´ë‹¤. ì‚¬ì‹¤ìƒ dbì˜ í…Œì´ë¸”ê³¼ í¡ì‚¬í•˜ë‹¤.
 	
-	// °Ô½ÃÆÇ µ¥ÀÌÅÍ º£ÀÌ½º ±¸ÃàÇÏ±â
+	// ê²Œì‹œíŒ ë°ì´í„° ë² ì´ìŠ¤ êµ¬ì¶•í•˜ê¸°
 	private int bbsID;
 	private String bbsTitle;
 	private String userID;

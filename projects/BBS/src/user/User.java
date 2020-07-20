@@ -1,7 +1,7 @@
 package user;
 
 public class User {
-	// ÀÌ·±½ÄÀ¸·Î ÇÏ³ªÀÇ µ¥ÀÌÅÍ¸¦ °ü¸®ÇÏ°í Ã³¸®ÇÒ ¼ö ÀÖ´Â ±â¹ıÀ» jsp¿¡¼­ ±¸ÇöÇÏ´Â °ÍÀ» ÀÚ¹ÙºóÁî? ¶ó°íÇÑ´Ù. 
+	// ì´ëŸ°ì‹ìœ¼ë¡œ í•˜ë‚˜ì˜ ë°ì´í„°ë¥¼ ê´€ë¦¬í•˜ê³  ì²˜ë¦¬í•  ìˆ˜ ìˆëŠ” ê¸°ë²•ì„ jspì—ì„œ êµ¬í˜„í•˜ëŠ” ê²ƒì„ ìë°”ë¹ˆì¦ˆ? ë¼ê³ í•œë‹¤. 
 	private String userID;
 	private String userPassword;
 	private String userName;
